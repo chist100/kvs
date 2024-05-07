@@ -31,3 +31,20 @@ func (k Keeper) RemoveAcl(ctx sdk.Context) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.AclKey))
 	store.Delete([]byte{0})
 }
+
+
+// CheckAddress check existence of address in store
+func (k Keeper) CheckAddress(ctx sdk.Context, addr string) bool {
+	acl, exist := k.GetAcl(ctx)
+	if !exist {
+		return false
+	}
+	isVerify := false 
+	for _, aclAddr := range acl.Adresses {
+		if aclAddr == addr { 
+			isVerify = true 
+			break
+		}
+	}
+	return isVerify
+}
