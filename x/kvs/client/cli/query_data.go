@@ -12,7 +12,7 @@ import (
 func CmdListData() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list-data",
-		Short: "list all Data",
+		Short: "list of all successfully confirmed data",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx := client.GetClientContextFromCmd(cmd)
 
@@ -45,7 +45,7 @@ func CmdListData() *cobra.Command {
 func CmdShowData() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "show-data [index]",
-		Short: "shows a Data",
+		Short: "shows successfully confirmed data",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			clientCtx := client.GetClientContextFromCmd(cmd)
