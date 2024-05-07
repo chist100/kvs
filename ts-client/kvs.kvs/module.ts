@@ -7,10 +7,21 @@ import { msgTypes } from './registry';
 import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
+import { MsgDataProposal } from "./types/kvs/kvs/tx";
 
 
-export {  };
+export { MsgDataProposal };
 
+type sendMsgDataProposalParams = {
+  value: MsgDataProposal,
+  fee?: StdFee,
+  memo?: string
+};
+
+
+type msgDataProposalParams = {
+  value: MsgDataProposal,
+};
 
 
 export const registry = new Registry(msgTypes);
@@ -30,6 +41,28 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 
   return {
 		
+		async sendMsgDataProposal({ value, fee, memo }: sendMsgDataProposalParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgDataProposal: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgDataProposal({ value: MsgDataProposal.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgDataProposal: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		
+		msgDataProposal({ value }: msgDataProposalParams): EncodeObject {
+			try {
+				return { typeUrl: "/kvs.kvs.MsgDataProposal", value: MsgDataProposal.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgDataProposal: Could not create message: ' + e.message)
+			}
+		},
 		
 	}
 };
