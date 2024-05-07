@@ -1,0 +1,11 @@
+syntax = "proto3";
+package kvs.kvs;
+
+option go_package = "kvs/x/kvs/types";
+
+message Data {
+  string index = 1; 
+  string value = 2; 
+  
+}
+
