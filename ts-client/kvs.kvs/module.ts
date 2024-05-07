@@ -8,9 +8,10 @@ import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
 import { MsgDataProposal } from "./types/kvs/kvs/tx";
+import { MsgDataConfirmation } from "./types/kvs/kvs/tx";
 
 
-export { MsgDataProposal };
+export { MsgDataProposal, MsgDataConfirmation };
 
 type sendMsgDataProposalParams = {
   value: MsgDataProposal,
@@ -18,9 +19,19 @@ type sendMsgDataProposalParams = {
   memo?: string
 };
 
+type sendMsgDataConfirmationParams = {
+  value: MsgDataConfirmation,
+  fee?: StdFee,
+  memo?: string
+};
+
 
 type msgDataProposalParams = {
   value: MsgDataProposal,
+};
+
+type msgDataConfirmationParams = {
+  value: MsgDataConfirmation,
 };
 
 
@@ -55,12 +66,34 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		async sendMsgDataConfirmation({ value, fee, memo }: sendMsgDataConfirmationParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgDataConfirmation: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgDataConfirmation({ value: MsgDataConfirmation.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgDataConfirmation: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
 		
 		msgDataProposal({ value }: msgDataProposalParams): EncodeObject {
 			try {
 				return { typeUrl: "/kvs.kvs.MsgDataProposal", value: MsgDataProposal.fromPartial( value ) }  
 			} catch (e: any) {
 				throw new Error('TxClient:MsgDataProposal: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgDataConfirmation({ value }: msgDataConfirmationParams): EncodeObject {
+			try {
+				return { typeUrl: "/kvs.kvs.MsgDataConfirmation", value: MsgDataConfirmation.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgDataConfirmation: Could not create message: ' + e.message)
 			}
 		},
 		

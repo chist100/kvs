@@ -71370,6 +71370,8 @@ definitions:
         type: string
       value:
         type: string
+  kvs.kvs.MsgDataConfirmationResponse:
+    type: object
   kvs.kvs.MsgDataProposalResponse:
     type: object
   kvs.kvs.Params:

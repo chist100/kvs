@@ -9,6 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+export type KvsMsgDataConfirmationResponse = object;
+
 export type KvsMsgDataProposalResponse = object;
 
 export interface KvsQueryAllDataResponse {

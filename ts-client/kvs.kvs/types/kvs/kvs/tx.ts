@@ -12,6 +12,14 @@ export interface MsgDataProposal {
 export interface MsgDataProposalResponse {
 }
 
+export interface MsgDataConfirmation {
+  creator: string;
+  key: string;
+}
+
+export interface MsgDataConfirmationResponse {
+}
+
 function createBaseMsgDataProposal(): MsgDataProposal {
   return { creator: "", key: "", value: "" };
 }
@@ -118,10 +126,108 @@ export const MsgDataProposalResponse = {
   },
 };
 
+function createBaseMsgDataConfirmation(): MsgDataConfirmation {
+  return { creator: "", key: "" };
+}
+
+export const MsgDataConfirmation = {
+  encode(message: MsgDataConfirmation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.key !== "") {
+      writer.uint32(18).string(message.key);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDataConfirmation {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgDataConfirmation();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.key = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgDataConfirmation {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      key: isSet(object.key) ? String(object.key) : "",
+    };
+  },
+
+  toJSON(message: MsgDataConfirmation): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.key !== undefined && (obj.key = message.key);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgDataConfirmation>, I>>(object: I): MsgDataConfirmation {
+    const message = createBaseMsgDataConfirmation();
+    message.creator = object.creator ?? "";
+    message.key = object.key ?? "";
+    return message;
+  },
+};
+
+function createBaseMsgDataConfirmationResponse(): MsgDataConfirmationResponse {
+  return {};
+}
+
+export const MsgDataConfirmationResponse = {
+  encode(_: MsgDataConfirmationResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDataConfirmationResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgDataConfirmationResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgDataConfirmationResponse {
+    return {};
+  },
+
+  toJSON(_: MsgDataConfirmationResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgDataConfirmationResponse>, I>>(_: I): MsgDataConfirmationResponse {
+    const message = createBaseMsgDataConfirmationResponse();
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   DataProposal(request: MsgDataProposal): Promise<MsgDataProposalResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  DataConfirmation(request: MsgDataConfirmation): Promise<MsgDataConfirmationResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -129,11 +235,18 @@ export class MsgClientImpl implements Msg {
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.DataProposal = this.DataProposal.bind(this);
+    this.DataConfirmation = this.DataConfirmation.bind(this);
   }
   DataProposal(request: MsgDataProposal): Promise<MsgDataProposalResponse> {
     const data = MsgDataProposal.encode(request).finish();
     const promise = this.rpc.request("kvs.kvs.Msg", "DataProposal", data);
     return promise.then((data) => MsgDataProposalResponse.decode(new _m0.Reader(data)));
+  }
+
+  DataConfirmation(request: MsgDataConfirmation): Promise<MsgDataConfirmationResponse> {
+    const data = MsgDataConfirmation.encode(request).finish();
+    const promise = this.rpc.request("kvs.kvs.Msg", "DataConfirmation", data);
+    return promise.then((data) => MsgDataConfirmationResponse.decode(new _m0.Reader(data)));
   }
 }
 

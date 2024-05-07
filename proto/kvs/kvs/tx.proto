@@ -8,6 +8,7 @@ option go_package = "kvs/x/kvs/types";
 // Msg defines the Msg service.
 service Msg {
       rpc DataProposal(MsgDataProposal) returns (MsgDataProposalResponse);
+  rpc DataConfirmation(MsgDataConfirmation) returns (MsgDataConfirmationResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -18,6 +19,14 @@ message MsgDataProposal {
 }
 
 message MsgDataProposalResponse {
+}
+
+message MsgDataConfirmation {
+  string creator = 1;
+  string key = 2;
+}
+
+message MsgDataConfirmationResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

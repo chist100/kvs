@@ -9,12 +9,16 @@ import (
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgDataProposal{}, "kvs/DataProposal", nil)
+	cdc.RegisterConcrete(&MsgDataConfirmation{}, "kvs/DataConfirmation", nil)
 	// this line is used by starport scaffolding # 2
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgDataProposal{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgDataConfirmation{},
 	)
 	// this line is used by starport scaffolding # 3
 
