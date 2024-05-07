@@ -38,6 +38,9 @@ func TestGenesisState_Validate(t *testing.T) {
 						Index: "1",
 					},
 				},
+				Acl: &types.Acl{
+					Adresses: []string{"15"},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,

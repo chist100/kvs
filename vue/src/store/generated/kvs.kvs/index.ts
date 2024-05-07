@@ -1,11 +1,12 @@
 import { Client, registry, MissingWalletError } from 'kvs-client-ts'
 
+import { Acl } from "kvs-client-ts/kvs.kvs/types"
 import { Data } from "kvs-client-ts/kvs.kvs/types"
 import { Params } from "kvs-client-ts/kvs.kvs/types"
 import { Proposal } from "kvs-client-ts/kvs.kvs/types"
 
 
-export { Data, Params, Proposal };
+export { Acl, Data, Params, Proposal };
 
 function initClient(vuexGetters) {
 	return new Client(vuexGetters['common/env/getEnv'], vuexGetters['common/wallet/signer'])
@@ -41,8 +42,10 @@ const getDefaultState = () => {
 				DataAll: {},
 				Proposal: {},
 				ProposalAll: {},
+				Acl: {},
 				
 				_Structure: {
+						Acl: getStructure(Acl.fromPartial({})),
 						Data: getStructure(Data.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
 						Proposal: getStructure(Proposal.fromPartial({})),
@@ -103,6 +106,12 @@ export default {
 						(<any> params).query=null
 					}
 			return state.ProposalAll[JSON.stringify(params)] ?? {}
+		},
+				getAcl: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.Acl[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -251,6 +260,28 @@ export default {
 				return getters['getProposalAll']( { params: {...key}, query}) ?? {}
 			} catch (e) {
 				throw new Error('QueryClient:QueryProposalAll API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryAcl({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const client = initClient(rootGetters);
+				let value= (await client.KvsKvs.query.queryAcl()).data
+				
+					
+				commit('QUERY', { query: 'Acl', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryAcl', payload: { options: { all }, params: {...key},query }})
+				return getters['getAcl']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryAcl API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},

@@ -30,6 +30,9 @@ func TestGenesis(t *testing.T) {
 				Index: "1",
 			},
 		},
+		Acl: &types.Acl{
+			Adresses: []string{"49"},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -43,5 +46,6 @@ func TestGenesis(t *testing.T) {
 
 	require.ElementsMatch(t, genesisState.DataList, got.DataList)
 	require.ElementsMatch(t, genesisState.ProposalList, got.ProposalList)
+	require.Equal(t, genesisState.Acl, got.Acl)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "kvs/kvs/params.proto";
 import "kvs/kvs/data.proto";
 import "kvs/kvs/proposal.proto";
+import "kvs/kvs/acl.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "kvs/x/kvs/types";
@@ -14,5 +15,6 @@ message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
   repeated Data dataList = 2 [(gogoproto.nullable) = false];
   repeated Proposal proposalList = 3 [(gogoproto.nullable) = false];
+  Acl acl = 4;
   // this line is used by starport scaffolding # genesis/proto/state
 }

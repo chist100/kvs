@@ -43405,6 +43405,43 @@ paths:
           format: uint64
       tags:
         - Query
+  /kvs/kvs/acl:
+    get:
+      summary: Queries a Acl by index.
+      operationId: KvsKvsAcl
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              Acl:
+                type: object
+                properties:
+                  adresses:
+                    type: array
+                    items:
+                      type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
   /kvs/kvs/data:
     get:
       summary: Queries a list of Data items.
@@ -71363,6 +71400,13 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  kvs.kvs.Acl:
+    type: object
+    properties:
+      adresses:
+        type: array
+        items:
+          type: string
   kvs.kvs.Data:
     type: object
     properties:
@@ -71470,6 +71514,16 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
+  kvs.kvs.QueryGetAclResponse:
+    type: object
+    properties:
+      Acl:
+        type: object
+        properties:
+          adresses:
+            type: array
+            items:
+              type: string
   kvs.kvs.QueryGetDataResponse:
     type: object
     properties:

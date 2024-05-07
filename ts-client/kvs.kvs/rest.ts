@@ -45,6 +45,10 @@ export interface KvsQueryAllProposalResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface KvsQueryGetAclResponse {
+  Acl?: KvskvsAcl;
+}
+
 export interface KvsQueryGetDataResponse {
   data?: KvskvsData;
 }
@@ -59,6 +63,10 @@ export interface KvsQueryGetProposalResponse {
 export interface KvsQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: KvskvsParams;
+}
+
+export interface KvskvsAcl {
+  adresses?: string[];
 }
 
 export interface KvskvsData {
@@ -281,10 +289,26 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title kvs/kvs/data.proto
+ * @title kvs/kvs/acl.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryAcl
+   * @summary Queries a Acl by index.
+   * @request GET:/kvs/kvs/acl
+   */
+  queryAcl = (params: RequestParams = {}) =>
+    this.request<KvsQueryGetAclResponse, RpcStatus>({
+      path: `/kvs/kvs/acl`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *

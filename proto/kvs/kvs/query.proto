@@ -7,6 +7,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "kvs/kvs/params.proto";
 import "kvs/kvs/data.proto";
 import "kvs/kvs/proposal.proto";
+import "kvs/kvs/acl.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "kvs/x/kvs/types";
@@ -37,6 +38,10 @@ service Query {
 		option (google.api.http).get = "/kvs/kvs/proposal";
 	}
 
+// Queries a Acl by index.
+	rpc Acl(QueryGetAclRequest) returns (QueryGetAclResponse) {
+		option (google.api.http).get = "/kvs/kvs/acl";
+	}
 // this line is used by starport scaffolding # 2
 }
 
@@ -85,4 +90,9 @@ message QueryAllProposalResponse {
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
+message QueryGetAclRequest {}
+
+message QueryGetAclResponse {
+	Acl Acl = 1 [(gogoproto.nullable) = false];
+}
 // this line is used by starport scaffolding # 3

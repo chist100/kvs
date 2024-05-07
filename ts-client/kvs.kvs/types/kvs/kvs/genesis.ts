@@ -1,5 +1,6 @@
 /* eslint-disable */
 import _m0 from "protobufjs/minimal";
+import { Acl } from "./acl";
 import { Data } from "./data";
 import { Params } from "./params";
 import { Proposal } from "./proposal";
@@ -10,12 +11,13 @@ export const protobufPackage = "kvs.kvs";
 export interface GenesisState {
   params: Params | undefined;
   dataList: Data[];
-  /** this line is used by starport scaffolding # genesis/proto/state */
   proposalList: Proposal[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  acl: Acl | undefined;
 }
 
 function createBaseGenesisState(): GenesisState {
-  return { params: undefined, dataList: [], proposalList: [] };
+  return { params: undefined, dataList: [], proposalList: [], acl: undefined };
 }
 
 export const GenesisState = {
@@ -28,6 +30,9 @@ export const GenesisState = {
     }
     for (const v of message.proposalList) {
       Proposal.encode(v!, writer.uint32(26).fork()).ldelim();
+    }
+    if (message.acl !== undefined) {
+      Acl.encode(message.acl, writer.uint32(34).fork()).ldelim();
     }
     return writer;
   },
@@ -48,6 +53,9 @@ export const GenesisState = {
         case 3:
           message.proposalList.push(Proposal.decode(reader, reader.uint32()));
           break;
+        case 4:
+          message.acl = Acl.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -63,6 +71,7 @@ export const GenesisState = {
       proposalList: Array.isArray(object?.proposalList)
         ? object.proposalList.map((e: any) => Proposal.fromJSON(e))
         : [],
+      acl: isSet(object.acl) ? Acl.fromJSON(object.acl) : undefined,
     };
   },
 
@@ -79,6 +88,7 @@ export const GenesisState = {
     } else {
       obj.proposalList = [];
     }
+    message.acl !== undefined && (obj.acl = message.acl ? Acl.toJSON(message.acl) : undefined);
     return obj;
   },
 
@@ -89,6 +99,7 @@ export const GenesisState = {
       : undefined;
     message.dataList = object.dataList?.map((e) => Data.fromPartial(e)) || [];
     message.proposalList = object.proposalList?.map((e) => Proposal.fromPartial(e)) || [];
+    message.acl = (object.acl !== undefined && object.acl !== null) ? Acl.fromPartial(object.acl) : undefined;
     return message;
   },
 };

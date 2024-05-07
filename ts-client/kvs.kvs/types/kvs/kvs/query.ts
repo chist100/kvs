@@ -1,6 +1,7 @@
 /* eslint-disable */
 import _m0 from "protobufjs/minimal";
 import { PageRequest, PageResponse } from "../../cosmos/base/query/v1beta1/pagination";
+import { Acl } from "./acl";
 import { Data } from "./data";
 import { Params } from "./params";
 import { Proposal } from "./proposal";
@@ -49,6 +50,13 @@ export interface QueryAllProposalRequest {
 export interface QueryAllProposalResponse {
   proposal: Proposal[];
   pagination: PageResponse | undefined;
+}
+
+export interface QueryGetAclRequest {
+}
+
+export interface QueryGetAclResponse {
+  Acl: Acl | undefined;
 }
 
 function createBaseQueryParamsRequest(): QueryParamsRequest {
@@ -559,6 +567,92 @@ export const QueryAllProposalResponse = {
   },
 };
 
+function createBaseQueryGetAclRequest(): QueryGetAclRequest {
+  return {};
+}
+
+export const QueryGetAclRequest = {
+  encode(_: QueryGetAclRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetAclRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryGetAclRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): QueryGetAclRequest {
+    return {};
+  },
+
+  toJSON(_: QueryGetAclRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryGetAclRequest>, I>>(_: I): QueryGetAclRequest {
+    const message = createBaseQueryGetAclRequest();
+    return message;
+  },
+};
+
+function createBaseQueryGetAclResponse(): QueryGetAclResponse {
+  return { Acl: undefined };
+}
+
+export const QueryGetAclResponse = {
+  encode(message: QueryGetAclResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.Acl !== undefined) {
+      Acl.encode(message.Acl, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetAclResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryGetAclResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.Acl = Acl.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetAclResponse {
+    return { Acl: isSet(object.Acl) ? Acl.fromJSON(object.Acl) : undefined };
+  },
+
+  toJSON(message: QueryGetAclResponse): unknown {
+    const obj: any = {};
+    message.Acl !== undefined && (obj.Acl = message.Acl ? Acl.toJSON(message.Acl) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryGetAclResponse>, I>>(object: I): QueryGetAclResponse {
+    const message = createBaseQueryGetAclResponse();
+    message.Acl = (object.Acl !== undefined && object.Acl !== null) ? Acl.fromPartial(object.Acl) : undefined;
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -571,6 +665,8 @@ export interface Query {
   Proposal(request: QueryGetProposalRequest): Promise<QueryGetProposalResponse>;
   /** Queries a list of Proposal items. */
   ProposalAll(request: QueryAllProposalRequest): Promise<QueryAllProposalResponse>;
+  /** Queries a Acl by index. */
+  Acl(request: QueryGetAclRequest): Promise<QueryGetAclResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -582,6 +678,7 @@ export class QueryClientImpl implements Query {
     this.DataAll = this.DataAll.bind(this);
     this.Proposal = this.Proposal.bind(this);
     this.ProposalAll = this.ProposalAll.bind(this);
+    this.Acl = this.Acl.bind(this);
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -611,6 +708,12 @@ export class QueryClientImpl implements Query {
     const data = QueryAllProposalRequest.encode(request).finish();
     const promise = this.rpc.request("kvs.kvs.Query", "ProposalAll", data);
     return promise.then((data) => QueryAllProposalResponse.decode(new _m0.Reader(data)));
+  }
+
+  Acl(request: QueryGetAclRequest): Promise<QueryGetAclResponse> {
+    const data = QueryGetAclRequest.encode(request).finish();
+    const promise = this.rpc.request("kvs.kvs.Query", "Acl", data);
+    return promise.then((data) => QueryGetAclResponse.decode(new _m0.Reader(data)));
   }
 }
 
