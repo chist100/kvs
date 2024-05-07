@@ -256,19 +256,6 @@ export default {
 		},
 		
 		
-		async sendMsgDataProposal({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const client=await initClient(rootGetters)
-				const result = await client.KvsKvs.tx.sendMsgDataProposal({ value, fee: {amount: fee, gas: "200000"}, memo })
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgDataProposal:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgDataProposal:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
 		async sendMsgDataConfirmation({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const client=await initClient(rootGetters)
@@ -282,20 +269,33 @@ export default {
 				}
 			}
 		},
-		
-		async MsgDataProposal({ rootGetters }, { value }) {
+		async sendMsgAddressRegistration({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
-				const client=initClient(rootGetters)
-				const msg = await client.KvsKvs.tx.msgDataProposal({value})
-				return msg
+				const client=await initClient(rootGetters)
+				const result = await client.KvsKvs.tx.sendMsgAddressRegistration({ value, fee: {amount: fee, gas: "200000"}, memo })
+				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgDataProposal:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgDataProposal:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgAddressRegistration:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgAddressRegistration:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
+		async sendMsgDataProposal({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const client=await initClient(rootGetters)
+				const result = await client.KvsKvs.tx.sendMsgDataProposal({ value, fee: {amount: fee, gas: "200000"}, memo })
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgDataProposal:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgDataProposal:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		
 		async MsgDataConfirmation({ rootGetters }, { value }) {
 			try {
 				const client=initClient(rootGetters)
@@ -306,6 +306,32 @@ export default {
 					throw new Error('TxClient:MsgDataConfirmation:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgDataConfirmation:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgAddressRegistration({ rootGetters }, { value }) {
+			try {
+				const client=initClient(rootGetters)
+				const msg = await client.KvsKvs.tx.msgAddressRegistration({value})
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgAddressRegistration:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgAddressRegistration:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgDataProposal({ rootGetters }, { value }) {
+			try {
+				const client=initClient(rootGetters)
+				const msg = await client.KvsKvs.tx.msgDataProposal({value})
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgDataProposal:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgDataProposal:Create Could not create message: ' + e.message)
 				}
 			}
 		},

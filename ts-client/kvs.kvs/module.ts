@@ -7,17 +7,12 @@ import { msgTypes } from './registry';
 import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
-import { MsgDataProposal } from "./types/kvs/kvs/tx";
 import { MsgDataConfirmation } from "./types/kvs/kvs/tx";
+import { MsgAddressRegistration } from "./types/kvs/kvs/tx";
+import { MsgDataProposal } from "./types/kvs/kvs/tx";
 
 
-export { MsgDataProposal, MsgDataConfirmation };
-
-type sendMsgDataProposalParams = {
-  value: MsgDataProposal,
-  fee?: StdFee,
-  memo?: string
-};
+export { MsgDataConfirmation, MsgAddressRegistration, MsgDataProposal };
 
 type sendMsgDataConfirmationParams = {
   value: MsgDataConfirmation,
@@ -25,13 +20,29 @@ type sendMsgDataConfirmationParams = {
   memo?: string
 };
 
-
-type msgDataProposalParams = {
-  value: MsgDataProposal,
+type sendMsgAddressRegistrationParams = {
+  value: MsgAddressRegistration,
+  fee?: StdFee,
+  memo?: string
 };
+
+type sendMsgDataProposalParams = {
+  value: MsgDataProposal,
+  fee?: StdFee,
+  memo?: string
+};
+
 
 type msgDataConfirmationParams = {
   value: MsgDataConfirmation,
+};
+
+type msgAddressRegistrationParams = {
+  value: MsgAddressRegistration,
+};
+
+type msgDataProposalParams = {
+  value: MsgDataProposal,
 };
 
 
@@ -52,20 +63,6 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 
   return {
 		
-		async sendMsgDataProposal({ value, fee, memo }: sendMsgDataProposalParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgDataProposal: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgDataProposal({ value: MsgDataProposal.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgDataProposal: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
 		async sendMsgDataConfirmation({ value, fee, memo }: sendMsgDataConfirmationParams): Promise<DeliverTxResponse> {
 			if (!signer) {
 					throw new Error('TxClient:sendMsgDataConfirmation: Unable to sign Tx. Signer is not present.')
@@ -80,20 +77,56 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		
-		msgDataProposal({ value }: msgDataProposalParams): EncodeObject {
-			try {
-				return { typeUrl: "/kvs.kvs.MsgDataProposal", value: MsgDataProposal.fromPartial( value ) }  
+		async sendMsgAddressRegistration({ value, fee, memo }: sendMsgAddressRegistrationParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgAddressRegistration: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgAddressRegistration({ value: MsgAddressRegistration.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgDataProposal: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgAddressRegistration: Could not broadcast Tx: '+ e.message)
 			}
 		},
+		
+		async sendMsgDataProposal({ value, fee, memo }: sendMsgDataProposalParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgDataProposal: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgDataProposal({ value: MsgDataProposal.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgDataProposal: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
 		
 		msgDataConfirmation({ value }: msgDataConfirmationParams): EncodeObject {
 			try {
 				return { typeUrl: "/kvs.kvs.MsgDataConfirmation", value: MsgDataConfirmation.fromPartial( value ) }  
 			} catch (e: any) {
 				throw new Error('TxClient:MsgDataConfirmation: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgAddressRegistration({ value }: msgAddressRegistrationParams): EncodeObject {
+			try {
+				return { typeUrl: "/kvs.kvs.MsgAddressRegistration", value: MsgAddressRegistration.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgAddressRegistration: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgDataProposal({ value }: msgDataProposalParams): EncodeObject {
+			try {
+				return { typeUrl: "/kvs.kvs.MsgDataProposal", value: MsgDataProposal.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgDataProposal: Could not create message: ' + e.message)
 			}
 		},
 		

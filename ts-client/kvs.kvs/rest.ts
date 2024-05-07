@@ -9,6 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+export type KvsMsgAddressRegistrationResponse = object;
+
 export type KvsMsgDataConfirmationResponse = object;
 
 export type KvsMsgDataProposalResponse = object;

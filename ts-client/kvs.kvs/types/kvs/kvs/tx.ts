@@ -20,6 +20,14 @@ export interface MsgDataConfirmation {
 export interface MsgDataConfirmationResponse {
 }
 
+export interface MsgAddressRegistration {
+  creator: string;
+  addresses: string[];
+}
+
+export interface MsgAddressRegistrationResponse {
+}
+
 function createBaseMsgDataProposal(): MsgDataProposal {
   return { creator: "", key: "", value: "" };
 }
@@ -223,11 +231,113 @@ export const MsgDataConfirmationResponse = {
   },
 };
 
+function createBaseMsgAddressRegistration(): MsgAddressRegistration {
+  return { creator: "", addresses: [] };
+}
+
+export const MsgAddressRegistration = {
+  encode(message: MsgAddressRegistration, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    for (const v of message.addresses) {
+      writer.uint32(18).string(v!);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgAddressRegistration {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgAddressRegistration();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.addresses.push(reader.string());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgAddressRegistration {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      addresses: Array.isArray(object?.addresses) ? object.addresses.map((e: any) => String(e)) : [],
+    };
+  },
+
+  toJSON(message: MsgAddressRegistration): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    if (message.addresses) {
+      obj.addresses = message.addresses.map((e) => e);
+    } else {
+      obj.addresses = [];
+    }
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgAddressRegistration>, I>>(object: I): MsgAddressRegistration {
+    const message = createBaseMsgAddressRegistration();
+    message.creator = object.creator ?? "";
+    message.addresses = object.addresses?.map((e) => e) || [];
+    return message;
+  },
+};
+
+function createBaseMsgAddressRegistrationResponse(): MsgAddressRegistrationResponse {
+  return {};
+}
+
+export const MsgAddressRegistrationResponse = {
+  encode(_: MsgAddressRegistrationResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgAddressRegistrationResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgAddressRegistrationResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgAddressRegistrationResponse {
+    return {};
+  },
+
+  toJSON(_: MsgAddressRegistrationResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgAddressRegistrationResponse>, I>>(_: I): MsgAddressRegistrationResponse {
+    const message = createBaseMsgAddressRegistrationResponse();
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   DataProposal(request: MsgDataProposal): Promise<MsgDataProposalResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   DataConfirmation(request: MsgDataConfirmation): Promise<MsgDataConfirmationResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  AddressRegistration(request: MsgAddressRegistration): Promise<MsgAddressRegistrationResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -236,6 +346,7 @@ export class MsgClientImpl implements Msg {
     this.rpc = rpc;
     this.DataProposal = this.DataProposal.bind(this);
     this.DataConfirmation = this.DataConfirmation.bind(this);
+    this.AddressRegistration = this.AddressRegistration.bind(this);
   }
   DataProposal(request: MsgDataProposal): Promise<MsgDataProposalResponse> {
     const data = MsgDataProposal.encode(request).finish();
@@ -247,6 +358,12 @@ export class MsgClientImpl implements Msg {
     const data = MsgDataConfirmation.encode(request).finish();
     const promise = this.rpc.request("kvs.kvs.Msg", "DataConfirmation", data);
     return promise.then((data) => MsgDataConfirmationResponse.decode(new _m0.Reader(data)));
+  }
+
+  AddressRegistration(request: MsgAddressRegistration): Promise<MsgAddressRegistrationResponse> {
+    const data = MsgAddressRegistration.encode(request).finish();
+    const promise = this.rpc.request("kvs.kvs.Msg", "AddressRegistration", data);
+    return promise.then((data) => MsgAddressRegistrationResponse.decode(new _m0.Reader(data)));
   }
 }
 

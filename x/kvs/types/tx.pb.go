@@ -211,17 +211,107 @@ func (m *MsgDataConfirmationResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgDataConfirmationResponse proto.InternalMessageInfo
 
+type MsgAddressRegistration struct {
+	Creator   string   `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Addresses []string `protobuf:"bytes,2,rep,name=addresses,proto3" json:"addresses,omitempty"`
+}
+
+func (m *MsgAddressRegistration) Reset()         { *m = MsgAddressRegistration{} }
+func (m *MsgAddressRegistration) String() string { return proto.CompactTextString(m) }
+func (*MsgAddressRegistration) ProtoMessage()    {}
+func (*MsgAddressRegistration) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e8f6341b3411205b, []int{4}
+}
+func (m *MsgAddressRegistration) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgAddressRegistration) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgAddressRegistration.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgAddressRegistration) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgAddressRegistration.Merge(m, src)
+}
+func (m *MsgAddressRegistration) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgAddressRegistration) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgAddressRegistration.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgAddressRegistration proto.InternalMessageInfo
+
+func (m *MsgAddressRegistration) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgAddressRegistration) GetAddresses() []string {
+	if m != nil {
+		return m.Addresses
+	}
+	return nil
+}
+
+type MsgAddressRegistrationResponse struct {
+}
+
+func (m *MsgAddressRegistrationResponse) Reset()         { *m = MsgAddressRegistrationResponse{} }
+func (m *MsgAddressRegistrationResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgAddressRegistrationResponse) ProtoMessage()    {}
+func (*MsgAddressRegistrationResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e8f6341b3411205b, []int{5}
+}
+func (m *MsgAddressRegistrationResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgAddressRegistrationResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgAddressRegistrationResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgAddressRegistrationResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgAddressRegistrationResponse.Merge(m, src)
+}
+func (m *MsgAddressRegistrationResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgAddressRegistrationResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgAddressRegistrationResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgAddressRegistrationResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*MsgDataProposal)(nil), "kvs.kvs.MsgDataProposal")
 	proto.RegisterType((*MsgDataProposalResponse)(nil), "kvs.kvs.MsgDataProposalResponse")
 	proto.RegisterType((*MsgDataConfirmation)(nil), "kvs.kvs.MsgDataConfirmation")
 	proto.RegisterType((*MsgDataConfirmationResponse)(nil), "kvs.kvs.MsgDataConfirmationResponse")
+	proto.RegisterType((*MsgAddressRegistration)(nil), "kvs.kvs.MsgAddressRegistration")
+	proto.RegisterType((*MsgAddressRegistrationResponse)(nil), "kvs.kvs.MsgAddressRegistrationResponse")
 }
 
 func init() { proto.RegisterFile("kvs/kvs/tx.proto", fileDescriptor_e8f6341b3411205b) }
 
 var fileDescriptor_e8f6341b3411205b = []byte{
-	// 247 bytes of a gzipped FileDescriptorProto
+	// 313 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0xc8, 0x2e, 0x2b, 0xd6,
 	0x07, 0xe1, 0x92, 0x0a, 0xbd, 0x82, 0xa2, 0xfc, 0x92, 0x7c, 0x21, 0xf6, 0xec, 0xb2, 0x62, 0xbd,
 	0xec, 0xb2, 0x62, 0xa5, 0x60, 0x2e, 0x7e, 0xdf, 0xe2, 0x74, 0x97, 0xc4, 0x92, 0xc4, 0x80, 0xa2,
@@ -230,14 +320,18 @@ var fileDescriptor_e8f6341b3411205b = []byte{
 	0x52, 0x82, 0x09, 0x2c, 0x0a, 0x62, 0x0a, 0x89, 0x70, 0xb1, 0x96, 0x25, 0xe6, 0x94, 0xa6, 0x4a,
 	0x30, 0x83, 0xc5, 0x20, 0x1c, 0x25, 0x49, 0x2e, 0x71, 0x34, 0x43, 0x83, 0x52, 0x8b, 0x0b, 0xf2,
 	0xf3, 0x8a, 0x53, 0x95, 0x1c, 0xb9, 0x84, 0xa1, 0x52, 0xce, 0xf9, 0x79, 0x69, 0x99, 0x45, 0xb9,
-	0x89, 0x25, 0x99, 0xf9, 0x79, 0xa4, 0xd8, 0xa9, 0x24, 0xcb, 0x25, 0x8d, 0xc5, 0x08, 0x98, 0x0d,
-	0x46, 0x2b, 0x19, 0xb9, 0x98, 0x7d, 0x8b, 0xd3, 0x85, 0xbc, 0xb8, 0x78, 0x50, 0xbd, 0xa5, 0x07,
-	0xf5, 0xb3, 0x1e, 0x9a, 0xdb, 0xa4, 0x14, 0x70, 0xc9, 0xc0, 0xcc, 0x14, 0x0a, 0xe3, 0x12, 0xc0,
-	0x70, 0xb2, 0x0c, 0xba, 0x2e, 0x64, 0x59, 0x29, 0x15, 0x7c, 0xb2, 0x30, 0x73, 0x9d, 0x34, 0x4f,
-	0x3c, 0x92, 0x63, 0xbc, 0xf0, 0x48, 0x8e, 0xf1, 0xc1, 0x23, 0x39, 0xc6, 0x09, 0x8f, 0xe5, 0x18,
-	0x2e, 0x3c, 0x96, 0x63, 0xb8, 0xf1, 0x58, 0x8e, 0x21, 0x8a, 0x1f, 0x14, 0x5d, 0x15, 0x90, 0x48,
-	0xab, 0x2c, 0x48, 0x2d, 0x4e, 0x62, 0x03, 0x47, 0x9c, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0x98,
-	0xc1, 0x0c, 0x54, 0xcc, 0x01, 0x00, 0x00,
+	0x89, 0x25, 0x99, 0xf9, 0x79, 0xa4, 0xd8, 0xa9, 0x24, 0xcb, 0x25, 0x8d, 0xc5, 0x08, 0xb8, 0x0d,
+	0x01, 0x5c, 0x62, 0xbe, 0xc5, 0xe9, 0x8e, 0x29, 0x29, 0x45, 0xa9, 0xc5, 0xc5, 0x41, 0xa9, 0xe9,
+	0x99, 0xc5, 0x25, 0x45, 0x84, 0x2c, 0x91, 0xe1, 0xe2, 0x4c, 0x84, 0x68, 0x48, 0x2d, 0x96, 0x60,
+	0x52, 0x60, 0xd6, 0xe0, 0x0c, 0x42, 0x08, 0x28, 0x29, 0x70, 0xc9, 0x61, 0x37, 0x11, 0x66, 0xa7,
+	0x51, 0x17, 0x13, 0x17, 0xb3, 0x6f, 0x71, 0xba, 0x90, 0x17, 0x17, 0x0f, 0x6a, 0x50, 0xea, 0x41,
+	0xc3, 0x59, 0x0f, 0x2d, 0x3c, 0xa4, 0x14, 0x70, 0xc9, 0xc0, 0xcc, 0x14, 0x0a, 0xe3, 0x12, 0xc0,
+	0x08, 0x26, 0x19, 0x74, 0x5d, 0xc8, 0xb2, 0x52, 0x2a, 0xf8, 0x64, 0xe1, 0xe6, 0xc6, 0x73, 0x09,
+	0x63, 0x0b, 0x1c, 0x79, 0x64, 0xcd, 0x58, 0x14, 0x48, 0xa9, 0x13, 0x50, 0x00, 0xb3, 0xc0, 0x49,
+	0xf3, 0xc4, 0x23, 0x39, 0xc6, 0x0b, 0x8f, 0xe4, 0x18, 0x1f, 0x3c, 0x92, 0x63, 0x9c, 0xf0, 0x58,
+	0x8e, 0xe1, 0xc2, 0x63, 0x39, 0x86, 0x1b, 0x8f, 0xe5, 0x18, 0xa2, 0xf8, 0x41, 0x69, 0xb0, 0x02,
+	0x92, 0x12, 0x2b, 0x0b, 0x52, 0x8b, 0x93, 0xd8, 0xc0, 0xa9, 0xd1, 0x18, 0x10, 0x00, 0x00, 0xff,
+	0xff, 0x84, 0x93, 0x05, 0x19, 0xa1, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -254,6 +348,7 @@ const _ = grpc.SupportPackageIsVersion4
 type MsgClient interface {
 	DataProposal(ctx context.Context, in *MsgDataProposal, opts ...grpc.CallOption) (*MsgDataProposalResponse, error)
 	DataConfirmation(ctx context.Context, in *MsgDataConfirmation, opts ...grpc.CallOption) (*MsgDataConfirmationResponse, error)
+	AddressRegistration(ctx context.Context, in *MsgAddressRegistration, opts ...grpc.CallOption) (*MsgAddressRegistrationResponse, error)
 }
 
 type msgClient struct {
@@ -282,10 +377,20 @@ func (c *msgClient) DataConfirmation(ctx context.Context, in *MsgDataConfirmatio
 	return out, nil
 }
 
+func (c *msgClient) AddressRegistration(ctx context.Context, in *MsgAddressRegistration, opts ...grpc.CallOption) (*MsgAddressRegistrationResponse, error) {
+	out := new(MsgAddressRegistrationResponse)
+	err := c.cc.Invoke(ctx, "/kvs.kvs.Msg/AddressRegistration", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	DataProposal(context.Context, *MsgDataProposal) (*MsgDataProposalResponse, error)
 	DataConfirmation(context.Context, *MsgDataConfirmation) (*MsgDataConfirmationResponse, error)
+	AddressRegistration(context.Context, *MsgAddressRegistration) (*MsgAddressRegistrationResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -297,6 +402,9 @@ func (*UnimplementedMsgServer) DataProposal(ctx context.Context, req *MsgDataPro
 }
 func (*UnimplementedMsgServer) DataConfirmation(ctx context.Context, req *MsgDataConfirmation) (*MsgDataConfirmationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DataConfirmation not implemented")
+}
+func (*UnimplementedMsgServer) AddressRegistration(ctx context.Context, req *MsgAddressRegistration) (*MsgAddressRegistrationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddressRegistration not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -339,6 +447,24 @@ func _Msg_DataConfirmation_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_AddressRegistration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgAddressRegistration)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).AddressRegistration(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/kvs.kvs.Msg/AddressRegistration",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).AddressRegistration(ctx, req.(*MsgAddressRegistration))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "kvs.kvs.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -350,6 +476,10 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DataConfirmation",
 			Handler:    _Msg_DataConfirmation_Handler,
+		},
+		{
+			MethodName: "AddressRegistration",
+			Handler:    _Msg_AddressRegistration_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -483,6 +613,68 @@ func (m *MsgDataConfirmationResponse) MarshalToSizedBuffer(dAtA []byte) (int, er
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgAddressRegistration) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgAddressRegistration) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgAddressRegistration) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Addresses) > 0 {
+		for iNdEx := len(m.Addresses) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.Addresses[iNdEx])
+			copy(dAtA[i:], m.Addresses[iNdEx])
+			i = encodeVarintTx(dAtA, i, uint64(len(m.Addresses[iNdEx])))
+			i--
+			dAtA[i] = 0x12
+		}
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgAddressRegistrationResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgAddressRegistrationResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgAddressRegistrationResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -542,6 +734,34 @@ func (m *MsgDataConfirmation) Size() (n int) {
 }
 
 func (m *MsgDataConfirmationResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgAddressRegistration) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if len(m.Addresses) > 0 {
+		for _, s := range m.Addresses {
+			l = len(s)
+			n += 1 + l + sovTx(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *MsgAddressRegistrationResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -893,6 +1113,170 @@ func (m *MsgDataConfirmationResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: MsgDataConfirmationResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgAddressRegistration) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgAddressRegistration: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgAddressRegistration: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Addresses", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Addresses = append(m.Addresses, string(dAtA[iNdEx:postIndex]))
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgAddressRegistrationResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgAddressRegistrationResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgAddressRegistrationResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

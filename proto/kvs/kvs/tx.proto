@@ -9,6 +9,7 @@ option go_package = "kvs/x/kvs/types";
 service Msg {
       rpc DataProposal(MsgDataProposal) returns (MsgDataProposalResponse);
   rpc DataConfirmation(MsgDataConfirmation) returns (MsgDataConfirmationResponse);
+  rpc AddressRegistration(MsgAddressRegistration) returns (MsgAddressRegistrationResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -27,6 +28,14 @@ message MsgDataConfirmation {
 }
 
 message MsgDataConfirmationResponse {
+}
+
+message MsgAddressRegistration {
+  string creator = 1;
+  repeated string addresses = 2;
+}
+
+message MsgAddressRegistrationResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message
