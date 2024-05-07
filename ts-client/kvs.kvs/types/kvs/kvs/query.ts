@@ -3,6 +3,7 @@ import _m0 from "protobufjs/minimal";
 import { PageRequest, PageResponse } from "../../cosmos/base/query/v1beta1/pagination";
 import { Data } from "./data";
 import { Params } from "./params";
+import { Proposal } from "./proposal";
 
 export const protobufPackage = "kvs.kvs";
 
@@ -30,6 +31,23 @@ export interface QueryAllDataRequest {
 
 export interface QueryAllDataResponse {
   data: Data[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryGetProposalRequest {
+  index: string;
+}
+
+export interface QueryGetProposalResponse {
+  proposal: Proposal | undefined;
+}
+
+export interface QueryAllProposalRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllProposalResponse {
+  proposal: Proposal[];
   pagination: PageResponse | undefined;
 }
 
@@ -330,6 +348,217 @@ export const QueryAllDataResponse = {
   },
 };
 
+function createBaseQueryGetProposalRequest(): QueryGetProposalRequest {
+  return { index: "" };
+}
+
+export const QueryGetProposalRequest = {
+  encode(message: QueryGetProposalRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.index !== "") {
+      writer.uint32(10).string(message.index);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetProposalRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryGetProposalRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.index = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetProposalRequest {
+    return { index: isSet(object.index) ? String(object.index) : "" };
+  },
+
+  toJSON(message: QueryGetProposalRequest): unknown {
+    const obj: any = {};
+    message.index !== undefined && (obj.index = message.index);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryGetProposalRequest>, I>>(object: I): QueryGetProposalRequest {
+    const message = createBaseQueryGetProposalRequest();
+    message.index = object.index ?? "";
+    return message;
+  },
+};
+
+function createBaseQueryGetProposalResponse(): QueryGetProposalResponse {
+  return { proposal: undefined };
+}
+
+export const QueryGetProposalResponse = {
+  encode(message: QueryGetProposalResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.proposal !== undefined) {
+      Proposal.encode(message.proposal, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryGetProposalResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryGetProposalResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.proposal = Proposal.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetProposalResponse {
+    return { proposal: isSet(object.proposal) ? Proposal.fromJSON(object.proposal) : undefined };
+  },
+
+  toJSON(message: QueryGetProposalResponse): unknown {
+    const obj: any = {};
+    message.proposal !== undefined && (obj.proposal = message.proposal ? Proposal.toJSON(message.proposal) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryGetProposalResponse>, I>>(object: I): QueryGetProposalResponse {
+    const message = createBaseQueryGetProposalResponse();
+    message.proposal = (object.proposal !== undefined && object.proposal !== null)
+      ? Proposal.fromPartial(object.proposal)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryAllProposalRequest(): QueryAllProposalRequest {
+  return { pagination: undefined };
+}
+
+export const QueryAllProposalRequest = {
+  encode(message: QueryAllProposalRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllProposalRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryAllProposalRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllProposalRequest {
+    return { pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined };
+  },
+
+  toJSON(message: QueryAllProposalRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined
+      && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryAllProposalRequest>, I>>(object: I): QueryAllProposalRequest {
+    const message = createBaseQueryAllProposalRequest();
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageRequest.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryAllProposalResponse(): QueryAllProposalResponse {
+  return { proposal: [], pagination: undefined };
+}
+
+export const QueryAllProposalResponse = {
+  encode(message: QueryAllProposalResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    for (const v of message.proposal) {
+      Proposal.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllProposalResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryAllProposalResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.proposal.push(Proposal.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllProposalResponse {
+    return {
+      proposal: Array.isArray(object?.proposal) ? object.proposal.map((e: any) => Proposal.fromJSON(e)) : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
+    };
+  },
+
+  toJSON(message: QueryAllProposalResponse): unknown {
+    const obj: any = {};
+    if (message.proposal) {
+      obj.proposal = message.proposal.map((e) => e ? Proposal.toJSON(e) : undefined);
+    } else {
+      obj.proposal = [];
+    }
+    message.pagination !== undefined
+      && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryAllProposalResponse>, I>>(object: I): QueryAllProposalResponse {
+    const message = createBaseQueryAllProposalResponse();
+    message.proposal = object.proposal?.map((e) => Proposal.fromPartial(e)) || [];
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageResponse.fromPartial(object.pagination)
+      : undefined;
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -338,6 +567,10 @@ export interface Query {
   Data(request: QueryGetDataRequest): Promise<QueryGetDataResponse>;
   /** Queries a list of Data items. */
   DataAll(request: QueryAllDataRequest): Promise<QueryAllDataResponse>;
+  /** Queries a Proposal by index. */
+  Proposal(request: QueryGetProposalRequest): Promise<QueryGetProposalResponse>;
+  /** Queries a list of Proposal items. */
+  ProposalAll(request: QueryAllProposalRequest): Promise<QueryAllProposalResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -347,6 +580,8 @@ export class QueryClientImpl implements Query {
     this.Params = this.Params.bind(this);
     this.Data = this.Data.bind(this);
     this.DataAll = this.DataAll.bind(this);
+    this.Proposal = this.Proposal.bind(this);
+    this.ProposalAll = this.ProposalAll.bind(this);
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -364,6 +599,18 @@ export class QueryClientImpl implements Query {
     const data = QueryAllDataRequest.encode(request).finish();
     const promise = this.rpc.request("kvs.kvs.Query", "DataAll", data);
     return promise.then((data) => QueryAllDataResponse.decode(new _m0.Reader(data)));
+  }
+
+  Proposal(request: QueryGetProposalRequest): Promise<QueryGetProposalResponse> {
+    const data = QueryGetProposalRequest.encode(request).finish();
+    const promise = this.rpc.request("kvs.kvs.Query", "Proposal", data);
+    return promise.then((data) => QueryGetProposalResponse.decode(new _m0.Reader(data)));
+  }
+
+  ProposalAll(request: QueryAllProposalRequest): Promise<QueryAllProposalResponse> {
+    const data = QueryAllProposalRequest.encode(request).finish();
+    const promise = this.rpc.request("kvs.kvs.Query", "ProposalAll", data);
+    return promise.then((data) => QueryAllProposalResponse.decode(new _m0.Reader(data)));
   }
 }
 

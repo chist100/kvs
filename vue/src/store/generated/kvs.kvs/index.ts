@@ -2,9 +2,10 @@ import { Client, registry, MissingWalletError } from 'kvs-client-ts'
 
 import { Data } from "kvs-client-ts/kvs.kvs/types"
 import { Params } from "kvs-client-ts/kvs.kvs/types"
+import { Proposal } from "kvs-client-ts/kvs.kvs/types"
 
 
-export { Data, Params };
+export { Data, Params, Proposal };
 
 function initClient(vuexGetters) {
 	return new Client(vuexGetters['common/env/getEnv'], vuexGetters['common/wallet/signer'])
@@ -38,10 +39,13 @@ const getDefaultState = () => {
 				Params: {},
 				Data: {},
 				DataAll: {},
+				Proposal: {},
+				ProposalAll: {},
 				
 				_Structure: {
 						Data: getStructure(Data.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
+						Proposal: getStructure(Proposal.fromPartial({})),
 						
 		},
 		_Registry: registry,
@@ -87,6 +91,18 @@ export default {
 						(<any> params).query=null
 					}
 			return state.DataAll[JSON.stringify(params)] ?? {}
+		},
+				getProposal: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.Proposal[JSON.stringify(params)] ?? {}
+		},
+				getProposalAll: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.ProposalAll[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -187,6 +203,54 @@ export default {
 				return getters['getDataAll']( { params: {...key}, query}) ?? {}
 			} catch (e) {
 				throw new Error('QueryClient:QueryDataAll API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryProposal({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const client = initClient(rootGetters);
+				let value= (await client.KvsKvs.query.queryProposal( key.index)).data
+				
+					
+				commit('QUERY', { query: 'Proposal', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryProposal', payload: { options: { all }, params: {...key},query }})
+				return getters['getProposal']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryProposal API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryProposalAll({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const client = initClient(rootGetters);
+				let value= (await client.KvsKvs.query.queryProposalAll(query ?? undefined)).data
+				
+					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await client.KvsKvs.query.queryProposalAll({...query ?? {}, 'pagination.key':(<any> value).pagination.next_key} as any)).data
+					value = mergeResults(value, next_values);
+				}
+				commit('QUERY', { query: 'ProposalAll', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryProposalAll', payload: { options: { all }, params: {...key},query }})
+				return getters['getProposalAll']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryProposalAll API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},

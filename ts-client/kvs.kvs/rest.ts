@@ -24,8 +24,27 @@ export interface KvsQueryAllDataResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface KvsQueryAllProposalResponse {
+  proposal?: KvskvsProposal[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface KvsQueryGetDataResponse {
   data?: KvskvsData;
+}
+
+export interface KvsQueryGetProposalResponse {
+  proposal?: KvskvsProposal;
 }
 
 /**
@@ -45,6 +64,12 @@ export interface KvskvsData {
  * Params defines the parameters for the module.
  */
 export type KvskvsParams = object;
+
+export interface KvskvsProposal {
+  index?: string;
+  value?: string;
+  acknowledgments?: string[];
+}
 
 export interface ProtobufAny {
   "@type"?: string;
@@ -307,6 +332,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryParams = (params: RequestParams = {}) =>
     this.request<KvsQueryParamsResponse, RpcStatus>({
       path: `/kvs/kvs/params`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryProposalAll
+   * @summary Queries a list of Proposal items.
+   * @request GET:/kvs/kvs/proposal
+   */
+  queryProposalAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<KvsQueryAllProposalResponse, RpcStatus>({
+      path: `/kvs/kvs/proposal`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryProposal
+   * @summary Queries a Proposal by index.
+   * @request GET:/kvs/kvs/proposal/{index}
+   */
+  queryProposal = (index: string, params: RequestParams = {}) =>
+    this.request<KvsQueryGetProposalResponse, RpcStatus>({
+      path: `/kvs/kvs/proposal/${index}`,
       method: "GET",
       format: "json",
       ...params,

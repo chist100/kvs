@@ -2,20 +2,20 @@
 import _m0 from "protobufjs/minimal";
 import { Data } from "./data";
 import { Params } from "./params";
+import { Proposal } from "./proposal";
 
 export const protobufPackage = "kvs.kvs";
 
 /** GenesisState defines the kvs module's genesis state. */
 export interface GenesisState {
-  params:
-    | Params
-    | undefined;
-  /** this line is used by starport scaffolding # genesis/proto/state */
+  params: Params | undefined;
   dataList: Data[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  proposalList: Proposal[];
 }
 
 function createBaseGenesisState(): GenesisState {
-  return { params: undefined, dataList: [] };
+  return { params: undefined, dataList: [], proposalList: [] };
 }
 
 export const GenesisState = {
@@ -25,6 +25,9 @@ export const GenesisState = {
     }
     for (const v of message.dataList) {
       Data.encode(v!, writer.uint32(18).fork()).ldelim();
+    }
+    for (const v of message.proposalList) {
+      Proposal.encode(v!, writer.uint32(26).fork()).ldelim();
     }
     return writer;
   },
@@ -42,6 +45,9 @@ export const GenesisState = {
         case 2:
           message.dataList.push(Data.decode(reader, reader.uint32()));
           break;
+        case 3:
+          message.proposalList.push(Proposal.decode(reader, reader.uint32()));
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -54,6 +60,9 @@ export const GenesisState = {
     return {
       params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
       dataList: Array.isArray(object?.dataList) ? object.dataList.map((e: any) => Data.fromJSON(e)) : [],
+      proposalList: Array.isArray(object?.proposalList)
+        ? object.proposalList.map((e: any) => Proposal.fromJSON(e))
+        : [],
     };
   },
 
@@ -65,6 +74,11 @@ export const GenesisState = {
     } else {
       obj.dataList = [];
     }
+    if (message.proposalList) {
+      obj.proposalList = message.proposalList.map((e) => e ? Proposal.toJSON(e) : undefined);
+    } else {
+      obj.proposalList = [];
+    }
     return obj;
   },
 
@@ -74,6 +88,7 @@ export const GenesisState = {
       ? Params.fromPartial(object.params)
       : undefined;
     message.dataList = object.dataList?.map((e) => Data.fromPartial(e)) || [];
+    message.proposalList = object.proposalList?.map((e) => Proposal.fromPartial(e)) || [];
     return message;
   },
 };

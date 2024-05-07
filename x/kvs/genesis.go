@@ -12,6 +12,10 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	for _, elem := range genState.DataList {
 		k.SetData(ctx, elem)
 	}
+	// Set all the proposal
+	for _, elem := range genState.ProposalList {
+		k.SetProposal(ctx, elem)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetParams(ctx, genState.Params)
 }
@@ -22,6 +26,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.Params = k.GetParams(ctx)
 
 	genesis.DataList = k.GetAllData(ctx)
+	genesis.ProposalList = k.GetAllProposal(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

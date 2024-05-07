@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "kvs/kvs/params.proto";
 import "kvs/kvs/data.proto";
+import "kvs/kvs/proposal.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "kvs/x/kvs/types";
@@ -24,6 +25,16 @@ service Query {
 	// Queries a list of Data items.
 	rpc DataAll(QueryAllDataRequest) returns (QueryAllDataResponse) {
 		option (google.api.http).get = "/kvs/kvs/data";
+	}
+
+// Queries a Proposal by index.
+	rpc Proposal(QueryGetProposalRequest) returns (QueryGetProposalResponse) {
+		option (google.api.http).get = "/kvs/kvs/proposal/{index}";
+	}
+
+	// Queries a list of Proposal items.
+	rpc ProposalAll(QueryAllProposalRequest) returns (QueryAllProposalResponse) {
+		option (google.api.http).get = "/kvs/kvs/proposal";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -53,6 +64,24 @@ message QueryAllDataRequest {
 
 message QueryAllDataResponse {
 	repeated Data data = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetProposalRequest {
+	  string index = 1;
+
+}
+
+message QueryGetProposalResponse {
+	Proposal proposal = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllProposalRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllProposalResponse {
+	repeated Proposal proposal = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
