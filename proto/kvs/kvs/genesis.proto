@@ -1,0 +1,14 @@
+syntax = "proto3";
+package kvs.kvs;
+
+import "gogoproto/gogo.proto";
+import "kvs/kvs/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "kvs/x/kvs/types";
+
+// GenesisState defines the kvs module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  // this line is used by starport scaffolding # genesis/proto/state
+}
