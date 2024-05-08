@@ -17,7 +17,7 @@ func (k msgServer) DataConfirmation(goCtx context.Context, msg *types.MsgDataCon
 	acl, exist := k.Keeper.GetAcl(ctx)
 	if !exist {
 		k.Logger(ctx).Error("address is not registered yet, input %s", msg)
-		return nil, status.Error(codes.Internal, fmt.Sprintf("address is not registered yet"))
+		return nil, status.Error(codes.Internal, "address is not registered yet")
 	}
 
 	if !k.Keeper.CheckAddress(ctx, msg.Creator) {

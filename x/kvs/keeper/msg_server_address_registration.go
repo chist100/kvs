@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"kvs/x/kvs/types"
@@ -27,7 +26,7 @@ func (k msgServer) AddressRegistration(goCtx context.Context, msg *types.MsgAddr
 	for _, addr := range msg.Addresses {
 		if len(strings.TrimSpace(addr)) == 0 {
 			k.Logger(ctx).Error("empty address string is not allowed, input %s", msg)
-			return nil, status.Error(codes.InvalidArgument, fmt.Sprintf("empty address string is not allowed"))
+			return nil, status.Error(codes.InvalidArgument, "empty address string is not allowed")
 		}
 	}
 
